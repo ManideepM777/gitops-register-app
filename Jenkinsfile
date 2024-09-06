@@ -33,6 +33,7 @@ pipeline{
                         sh 'git commit -m "Updated Deployment manifest"'
                         sh 'git push origin HEAD:main'
                     }
+                }
             }
         }
     }
