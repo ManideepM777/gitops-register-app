@@ -11,7 +11,7 @@ pipeline{
         }
         stage("Checkout from SCM"){
             steps{
-                git branch: 'main', credentialsId: 'github', url: 'https://github.com/ManideepM777/gitops-register-app'
+                git branch: 'main', credentialsId: 'github', url: 'https://github.com/ManideepM777/gitops-register-app.git'
             }
         }
         stage("Update the Deployment Tags"){
@@ -27,14 +27,14 @@ pipeline{
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'github-https', passwordVariable: 'GITHUB_TOKEN', usernameVariable: 'GITHUB_USER')]) {
-                        sh """
+                        sh '''
                         git config --global user.name "ManideepM777"
                         git config --global user.email "manideepmavillapalli@gmail.com"
                         git add deployment.yaml
                         git commit -m "Updated Deployment manifest"
-                        git remote set-url origin https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/ManideepM777/gitops-register-app.git
+                        git remote set-url origin https://$GITHUB_USER:$GITHUB_TOKEN@github.com/ManideepM777/gitops-register-app.git
                         git push origin main
-                        """
+                        '''
                     }
                 }
             }
