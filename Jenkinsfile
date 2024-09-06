@@ -25,15 +25,14 @@ pipeline{
         }
         stage("Push the changed deployment file to git"){
             steps{
-                sh """
-                git config --global user.name "ManideepM777"
-                git config --global user.email "manideepmavillapalli@gmail.com"
-                git add deployment.yaml
-                git commit -m "Updated Deployment manifest"
-                """
-                withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]){
-                    sh "git push https://github.com/ManideepM777/gitops-register-app main "
-                }
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+
+                        sh "git remote set-url origin https://${USER}:${PASS}@github.com/ManideepM777/gitops-register-app.git"
+                        sh 'git add deployment.yaml'
+                        sh 'git commit -m "Updated Deployment manifest"'
+                        sh 'git push origin HEAD:main'
+                    }
             }
         }
     }
