@@ -27,11 +27,12 @@ pipeline{
             steps{
                 script {
                     withCredentials([usernamePassword(credentialsId: 'github-https', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-
-                        sh "git remote set-url origin https://${USER}:${PASS}@github.com/ManideepM777/gitops-register-app.git"
-                        sh 'git add deployment.yaml'
-                        sh 'git commit -m "Updated Deployment manifest"'
-                        sh 'git push origin HEAD:main'
+                        sh """
+                        git remote set-url origin https://$USER:$PASS@github.com/ManideepM777/gitops-register-app.git
+                        git add deployment.yaml
+                        git commit -m 'Updated Deployment manifest'
+                        git push origin HEAD:main
+                        """
                     }
                 }
             }
