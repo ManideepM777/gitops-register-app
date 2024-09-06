@@ -26,7 +26,7 @@ pipeline{
         stage("Push the changed deployment file to git"){
             steps{
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                    withCredentials([usernamePassword(credentialsId: 'github-https', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
 
                         sh "git remote set-url origin https://${USER}:${PASS}@github.com/ManideepM777/gitops-register-app.git"
                         sh 'git add deployment.yaml'
